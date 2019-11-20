@@ -1,0 +1,20 @@
+#.travis.yml
+sudo: false
+language: python
+python:
+  - 3.6
+  - 3.7
+matrix:
+  include:
+    - python: 3.8
+      dist: xenial  # Required for Python 3.8
+      sudo: true    # Required for Python 3.8
+install:
+  - pip install poetry
+  - poetry install -vvv
+script:
+  - poetry run
+  - poetry run coverage run --source=Apiservice -m pytest -v
+  - poetry run coverage report -m
+after_success:
+  - poetry run coveralls
