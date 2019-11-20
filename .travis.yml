@@ -1,5 +1,4 @@
 #.travis.yml
-sudo: false
 language: python
 python:
   - 3.6
