@@ -12,7 +12,6 @@ install:
   - pip install poetry
   - poetry install -vvv
 script:
-  - poetry run
   - poetry run coverage run --source=Apiservice -m pytest -v
   - poetry run coverage report -m
 after_success:
