@@ -22,11 +22,6 @@ class ApihttpbinPost(BaseApi):
     data = "abc = 123"
     json = {"abc":123}
 
-
-
-
-
-
 def test_httpbin_get():
    ApihttpbinGet().run()\
        .validate("status_code",200)\
