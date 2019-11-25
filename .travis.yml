@@ -9,6 +9,8 @@ python:
   - 3.6
 matrix:
   include: # Required for Python 3.7+
+    - python: 3.6
+      - dist: xenial
     - python: 3.7
       dist: xenial
     - python: 3.8
