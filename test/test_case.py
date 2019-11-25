@@ -6,6 +6,18 @@
 
 import requests
 
+# base_url = "http://www.httpbin.org/get"
+# headers = {
+#            "accept": "application/json"
+#        }
+#
+#
+# class Test_httpbin_get:
+#     def run(self):
+#         return self
+#
+#     def viledate(self,key,exec_value):
+#         pass
 
 def test_httpbin_get():
    resrt = requests.get(
@@ -18,6 +30,10 @@ def test_httpbin_get():
    assert resrt.headers["server"] =="nginx"
    assert resrt.json()["url"] =="https://www.httpbin.org/get"
 
+
+# Test_httpbin_get()\
+#     .run()\
+#     .viledate()
 
 def test_httpbin_get_wich_params():
    resr = requests.get(
