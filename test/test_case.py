@@ -5,8 +5,7 @@
 # @File   :test_case.py
 
 
-from BaseClass import BaseApi
-
+from BaseClass.BaseApi import BaseApi
 
 class ApihttpbinGet(BaseApi):
     url = "http://www.httpbin.org/get"
@@ -15,12 +14,7 @@ class ApihttpbinGet(BaseApi):
     headers = {"accept": "application/json"}
 
 
-class ApihttpbinPost(BaseApi):
-    url = "http://www.httpbin.org/post"
-    method = "POST"
-    headers = {"accept": "application/json"}
-    data = "abc = 123"
-    json = {"abc":123}
+
 
 def test_httpbin_get():
    ApihttpbinGet().run()\
@@ -34,6 +28,14 @@ def test_httpbin_get_wich_params():
         .set_parsms(abc=123,asd=456)\
         .run()\
         .validate("status_code",200)
+
+class ApihttpbinPost(BaseApi):
+    url = "http://www.httpbin.org/post"
+    method = "POST"
+    headers = {"accept": "application/json"}
+    data = "abc = 123"
+    json = {"abc":123}
+
 
 def test_httpbin_post():
    ApihttpbinPost()\
