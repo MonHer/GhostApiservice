@@ -19,7 +19,7 @@ class ApihttpbinGet(BaseApi):
 def test_httpbin_get():
    ApihttpbinGet().run()\
        .validate("status_code",200)\
-       # .validate("headers.server","nginx")\
+       .validate("headers.server","nginx")\
        # .validate("json.url","https://www.httpbin.org/get")
 
 
