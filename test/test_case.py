@@ -62,6 +62,7 @@ def test_httpbin_parameters_share(): #实现多个接口参数共享同一个参
         .validate("json().headers.Accept-Encoding", "gzip, deflate")
 
 
+# boby参数提取实验
 def test_httpbin_extract():
     status_code = ApihttpbinGet().run().extract("status_code")
     assert status_code == 200
@@ -69,6 +70,14 @@ def test_httpbin_extract():
     server = ApihttpbinGet().run().extract("headers.server")
     assert server == "nginx"
 
-
     Length_value = ApihttpbinGet().run().extract("json().headers.Content-Length")
     assert Length_value == "2"
+
+
+# 提取cookiesdome
+def test_Getcookies():
+    Getcookies_run = ApihttpbinGetcookies()\
+        .set_cookie("cookies","lll")\
+        .run()
+    Getcookies = Getcookies_run.extract("json().cookies.cookies")
+    assert Getcookies == "lll"
