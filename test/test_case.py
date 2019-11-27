@@ -39,6 +39,7 @@ def test_httpbin_post():
        .validate("json().url","https://www.httpbin.org/post") \
        .validate("json().headers.Accept-Encoding", "gzip, deflate")
 
+
 def test_httpbin_parameters_share(): #实现多个接口参数共享同一个参数
     user_id = "abk124"
     ApihttpbinGet() \
@@ -48,7 +49,7 @@ def test_httpbin_parameters_share(): #实现多个接口参数共享同一个参
         .validate("headers.server", "nginx") \
         .validate("json().headers.Accept","application/json")\
         .validate("json().args", {"user_id": "abk124"}) \
-        .validate("json().url", "https://www.httpbin.org/get?user_id=abk124")
+        .validate("json().url", "https://www.httpbin.org/get?user_id={}".format(user_id))
 
     ApihttpbinPost()\
         .set_data({"user_id":user_id})\
@@ -59,3 +60,8 @@ def test_httpbin_parameters_share(): #实现多个接口参数共享同一个参
         .validate("json().headers.Accept","application/json")\
         .validate("json().url", "https://www.httpbin.org/post")\
         .validate("json().headers.Accept-Encoding", "gzip, deflate")
+
+
+def test_httpbin_extract():
+    status_code = ApihttpbinGet().run().extract("status_code")
+    assert status_code == 200
