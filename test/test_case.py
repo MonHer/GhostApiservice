@@ -81,3 +81,14 @@ def test_Getcookies():
         .run()
     Getcookies = Getcookies_run.extract("json().cookies.cookies")
     assert Getcookies == "lll"
+
+    # 关联参数
+    ApihttpbinPost() \
+        .set_json({"Getcookies": Getcookies}) \
+        .run() \
+        .validate("json().args", {}) \
+        .validate("status_code", 200) \
+        .validate("headers.server", "nginx") \
+        .validate("json().headers.Accept", "application/json") \
+        .validate("json().url", "https://www.httpbin.org/post") \
+        .validate("json().headers.Accept-Encoding", "gzip, deflate")
