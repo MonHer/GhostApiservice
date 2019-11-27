@@ -5,13 +5,7 @@
 # @File   :test_case.py
 
 
-from BaseClass.BaseApi import BaseApi
-
-class ApihttpbinGet(BaseApi):
-    url = "http://www.httpbin.org/get"
-    params = {}
-    method = "GET"
-    headers = {"accept": "application/json"}
+from Httpbin.httpbin import *
 
 
 def test_httpbin_get():
@@ -19,10 +13,8 @@ def test_httpbin_get():
        .validate("json().args",{})\
        .validate("status_code",200)\
        .validate("headers.server","nginx")\
-       .validate("json().headers.Content-Length","2")\
        .validate("json().url","https://www.httpbin.org/get")\
        .validate("json().headers.Accept","application/json")\
-
 
 
 def test_httpbin_get_wich_params():
@@ -31,22 +23,9 @@ def test_httpbin_get_wich_params():
         .run()\
         .validate("status_code",200)\
         .validate("headers.server","nginx")\
-        .validate("json().headers.Content-Length","2")\
+        .validate("json().headers.Accept","application/json")\
         .validate("json().args",{"abc": "123","asd": "456"})\
         .validate("json().url","https://www.httpbin.org/get?abc=123&asd=456")
-
-
-
-
-
-
-
-class ApihttpbinPost(BaseApi):
-    url = "http://www.httpbin.org/post"
-    method = "POST"
-    headers = {"accept": "application/json"}
-    data = "abc = 123"
-    json = {"abc":123}
 
 
 def test_httpbin_post():
@@ -56,6 +35,27 @@ def test_httpbin_post():
        .validate("json().args",{})\
        .validate("status_code",200)\
        .validate("headers.server","nginx")\
-       .validate("json().headers.Content-Length","9")\
+       .validate("json().headers.Accept","application/json")\
        .validate("json().url","https://www.httpbin.org/post") \
        .validate("json().headers.Accept-Encoding", "gzip, deflate")
+
+def test_httpbin_parameters_share(): #实现多个接口参数共享同一个参数
+    user_id = "abk124"
+    ApihttpbinGet() \
+        .set_parsms(user_id=user_id) \
+        .run() \
+        .validate("status_code", 200) \
+        .validate("headers.server", "nginx") \
+        .validate("json().headers.Accept","application/json")\
+        .validate("json().args", {"user_id": "abk124"}) \
+        .validate("json().url", "https://www.httpbin.org/get?user_id=abk124")
+
+    ApihttpbinPost()\
+        .set_data({"user_id":user_id})\
+        .run()\
+        .validate("json().args", {})\
+        .validate("status_code", 200)\
+        .validate("headers.server", "nginx")\
+        .validate("json().headers.Accept","application/json")\
+        .validate("json().url", "https://www.httpbin.org/post")\
+        .validate("json().headers.Accept-Encoding", "gzip, deflate")
